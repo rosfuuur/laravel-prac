@@ -15,6 +15,8 @@ class ProjectsController extends Controller
     public function index() {
         $projects = Project::where( 'owner_id', auth()->id() )->get();
 
+        dump( $projects );
+
         return view('projects.index', compact('projects'));
     }
 
@@ -31,6 +33,8 @@ class ProjectsController extends Controller
         $attributes['owner_id'] = auth()->id();
 
         Project::create($attributes);
+
+        \Mail::to(request()->user())->send(new MailableClass);
 
         return redirect('/projects');
     }
